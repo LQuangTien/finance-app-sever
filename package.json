@@ -4,7 +4,9 @@
   "description": "An Express-based application skeleton",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js localhost 8080"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --inspect index.js",
+    "start": "node index.js"
   },
   "dependencies": {
     "axios": "0.19.2",

@@ -9,7 +9,6 @@ mongoose.connect(process.env.MONGO, {
   useUnifiedTopology: true,
   useFindAndModify: false
 });
-app.use(express.static(path.join(__dirname, "public")));
 
 const financeRouter = require("./routes/finance.route");
 const authRouter = require("./routes/auth.route");
@@ -19,6 +18,7 @@ const authMiddleware = require("./middlewares/auth.middleware");
 const app = express();
 app.use(cors());
 app.use(logger("dev"));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

@@ -87,5 +87,5 @@ module.exports.postSpending = async (req, res, next) => {
 
   // await user.save();
   await User.updateOne({ name }, { $set: { spending: user.spending } });
-  return Response.success(res, { msg: "Submit Complete" }, 202);
+  return Response.success(res, { message: "Submit Complete" }, 202);
 };

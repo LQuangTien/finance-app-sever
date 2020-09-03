@@ -9,7 +9,7 @@ module.exports.getTodo = async (req, res, next) => {
   if (!todos.length) {
     return Response.error(res, { message: "No todo data" });
   }
-  return Response.success(res, { todos }, 202);
+  return Response.success(res, { todos });
 };
 module.exports.postTodo = async (req, res, next) => {
   const { userId } = req.tokenPayload;

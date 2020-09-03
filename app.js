@@ -29,6 +29,6 @@ app.use("/auth", authRouter);
 app.use("/todo", authMiddleware.requireAuth, todoRouter);
 app.use("/", authMiddleware.requireAuth, financeRouter);
 app.use(handleError);
-const listener = app.listen($PORT, function () {
+const listener = app.listen(process.env.PORT, function () {
   console.log("Listening on port " + listener.address().port);
 });

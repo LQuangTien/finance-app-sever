@@ -1,9 +1,7 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 
-var controller = require("../controllers/finance.controller");
-
-/* GET users listing. */
+const controller = require("../controllers/finance.controller");
 
 router.get("/earning/", controller.getEarning);
 router.post("/earning/", controller.postEarning);

@@ -9,9 +9,10 @@ mongoose.connect(process.env.MONGO, {
   useUnifiedTopology: true,
   useFindAndModify: false
 });
-
 const financeRouter = require("./routes/finance.route");
 const authRouter = require("./routes/auth.route");
+const todoRouter = require("./routes/todo.route");
+const handleError = require("./helpers/handleError.helper");
 
 const authMiddleware = require("./middlewares/auth.middleware");
 
@@ -22,10 +23,12 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/auth", authRouter);
+app.use("/todo", authMiddleware.requireAuth, todoRouter);
 app.use("/", authMiddleware.requireAuth, financeRouter);
-
-const listener = app.listen(process.env.PORT, function () {
+app.use(handleError);
+const listener = app.listen(8080, function () {
   console.log("Listening on port " + listener.address().port);
 });

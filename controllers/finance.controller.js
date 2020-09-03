@@ -1,13 +1,16 @@
 const moment = require("moment");
+
 const User = require("../models/user.model");
 const Transaction = require("../models/transactions.model");
 const Year = require("../models/year.model");
 const ExpendTransaction = require("../models/expendTransaction.model");
 
+const Response = require("../helpers/response.helper");
+
 module.exports.getEarning = async (req, res, next) => {
   const { name } = req.tokenPayload;
   const user = await User.findOne({ name });
-  res.json({ earning: user.earning });
+  return Response.success(res, { earning: user.earning });
 };
 module.exports.postEarning = async (req, res, next) => {
   // test create new user and transaction
@@ -37,9 +40,8 @@ module.exports.postEarning = async (req, res, next) => {
   const year = user.earning.totalMoneyEachYear[index];
   year.months[month] += newTran.amount;
 
-  // await user.save();
   await User.updateOne({ name }, { $set: { earning: user.earning } });
-  return res.status(202).json({ msg: "Submit Complete" });
+  return Response.success(res, { message: "Submit Complete" }, 202);
 };
 module.exports.getSpending = async (req, res, next) => {
   const { name } = req.tokenPayload;
@@ -54,7 +56,7 @@ module.exports.getSpending = async (req, res, next) => {
     return firstMonth - secondMonth;
   });
 
-  res.json({ spending: user.spending });
+  return Response.success(res, { spending: user.spending });
 };
 module.exports.postSpending = async (req, res, next) => {
   // test create new user and transaction
@@ -85,5 +87,5 @@ module.exports.postSpending = async (req, res, next) => {
 
   // await user.save();
   await User.updateOne({ name }, { $set: { spending: user.spending } });
-  return res.status(202).json({ msg: "Submit Complete" });
+  return Response.success(res, { msg: "Submit Complete" }, 202);
 };

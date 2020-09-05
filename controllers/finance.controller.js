@@ -7,12 +7,12 @@ const ExpendTransaction = require("../models/expendTransaction.model");
 
 const Response = require("../helpers/response.helper");
 
-module.exports.getEarning = async (req, res, next) => {
+module.exports.getEarning = async (req, res) => {
   const { name } = req.tokenPayload;
   const user = await User.findOne({ name });
   return Response.success(res, { earning: user.earning });
 };
-module.exports.postEarning = async (req, res, next) => {
+module.exports.postEarning = async (req, res) => {
   // test create new user and transaction
   const newTran = new Transaction(req.body);
   //find user and push transactions
@@ -43,7 +43,7 @@ module.exports.postEarning = async (req, res, next) => {
   await User.updateOne({ name }, { $set: { earning: user.earning } });
   return Response.success(res, { message: "Submit Complete" }, 202);
 };
-module.exports.getSpending = async (req, res, next) => {
+module.exports.getSpending = async (req, res) => {
   const { name } = req.tokenPayload;
   const user = await User.findOne({ name });
   const { transactions } = user.spending;
@@ -58,7 +58,7 @@ module.exports.getSpending = async (req, res, next) => {
 
   return Response.success(res, { spending: user.spending });
 };
-module.exports.postSpending = async (req, res, next) => {
+module.exports.postSpending = async (req, res) => {
   // test create new user and transaction
   const newTran = new ExpendTransaction(req.body);
   //find user and push transactions

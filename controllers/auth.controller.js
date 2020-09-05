@@ -4,18 +4,22 @@ const saltRounds = 10;
 
 const Response = require("../helpers/response.helper");
 const User = require("../models/user.model");
-module.exports.register = async (req, res, next) => {
-  const { name, password } = req.body;
+module.exports.register = async (req, res) => {
+  const { name, password, confirmPassword } = req.body;
+  console.log(name, password, confirmPassword);
   const user = await User.findOne({ name: name });
   if (user) {
     return Response.error(res, { message: "Username has been used" }, 403);
+  }
+  if(password !== confirmPassword) {
+    return Response.error(res, { message: "Password not matched" }, 403);
   }
   const hashPassword = await bcrypt.hash(password, saltRounds);
   const newUser = new User({ name, password: hashPassword });
   await newUser.save();
   return Response.success(res, { newUser }, 201);
 };
-module.exports.login = async (req, res, next) => {
+module.exports.login = async (req, res) => {
   const { name, password } = req.body;
   console.log(name);
   const user = await User.findOne({ name: name });

@@ -1,4 +1,5 @@
 const express = require("express");
+require('dotenv').config()
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
@@ -12,6 +13,7 @@ mongoose.connect(process.env.MONGO, {
 const financeRouter = require("./routes/finance.route");
 const authRouter = require("./routes/auth.route");
 const todoRouter = require("./routes/todo.route");
+const vocabularyRouter = require("./routes/vocabulary.route");
 const handleError = require("./helpers/handleError.helper");
 
 const authMiddleware = require("./middlewares/auth.middleware");
@@ -27,8 +29,9 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/auth", authRouter);
 app.use("/todo", authMiddleware.requireAuth, todoRouter);
+app.use("/vocabulary", authMiddleware.requireAuth, vocabularyRouter);
 app.use("/", authMiddleware.requireAuth, financeRouter);
 app.use(handleError);
-const listener = app.listen(process.env.PORT, function () {
+const listener = app.listen(process.env.PORT || 3001, function () {
   console.log("Listening on port " + listener.address().port);
 });

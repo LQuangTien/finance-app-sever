@@ -3,8 +3,13 @@ const { Joi } = require("celebrate");
 const loginSchema = Joi.object({
   name: Joi.string().required(),
   password: Joi.string().required()
-}).options({ abortEarly: false });
-
+});
+const registerSchema = Joi.object({
+  name: Joi.string().required(),
+  password: Joi.string().required(),
+  confirmPassword: Joi.string().required(),
+});
 module.exports = {
-  loginSchema
+  loginSchema,
+  registerSchema
 };

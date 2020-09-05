@@ -5,7 +5,7 @@ const Response = require("../helpers/response.helper");
 
 module.exports.getVocabulary = async (req, res) => {
   const { userId } = req.tokenPayload;
-  const vocabularies = await Vocabulary.find({ userId });
+  const vocabularies = await Vocabulary.find({ userId }).sort({_id: -1});
   if (!vocabularies.length) {
     return Response.error(res, { message: "No vocabulary data" });
   }
